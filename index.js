@@ -1,28 +1,33 @@
-// Set the target date for the next championship
-const championshipDate = new Date("June 21, 2025 00:00:00").getTime();
+// Set the target date for the countdown
+const targetDate = new Date("2025-06-01T00:00:00").getTime();
 
-// Update the countdown every second
-const countdownInterval = setInterval(() => {
+function updateCountdown() {
   const now = new Date().getTime();
-  const timeRemaining = championshipDate - now;
+  const timeLeft = targetDate - now;
 
   // Calculate days, hours, minutes, and seconds
-  const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+  const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
   const hours = Math.floor(
-    (timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+    (timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
   );
-  const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
-  const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+  const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
 
-  // Display the countdown
-  document.querySelector(
-    ".countdown-timer"
-  ).innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+  // Display the result in the elements with IDs
+  document.getElementById("days").textContent = days;
+  document.getElementById("hours").textContent = hours;
+  document.getElementById("minutes").textContent = minutes;
+  document.getElementById("seconds").textContent = seconds;
 
-  // If the countdown is over, display a message
-  if (timeRemaining < 0) {
+  // If the countdown is over, display 0
+  if (timeLeft < 0) {
     clearInterval(countdownInterval);
-    document.querySelector(".countdown-timer").innerHTML =
-      "The championship has started!";
+    document.getElementById("days").textContent = 0;
+    document.getElementById("hours").textContent = 0;
+    document.getElementById("minutes").textContent = 0;
+    document.getElementById("seconds").textContent = 0;
   }
-}, 1000);
+}
+
+// Update the countdown every second
+const countdownInterval = setInterval(updateCountdown, 1000);
